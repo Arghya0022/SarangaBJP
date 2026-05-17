@@ -13,9 +13,13 @@ function serializeForm(form) {
 }
 
 async function api(path, options = {}) {
+  const isFormData = options.body instanceof FormData;
+
   const response = await fetch(path, {
-    headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
-    ...options
+    ...options,
+    headers: isFormData
+      ? { ...(options.headers || {}) }
+      : { 'Content-Type': 'application/json', ...(options.headers || {}) }
   });
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || 'Request failed');
@@ -104,9 +108,15 @@ document.querySelectorAll('[data-create]').forEach((form) => {
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     const resource = form.dataset.create;
+    const formData = new FormData(form);
+
+    form.querySelectorAll('input[type="checkbox"]').forEach((input) => {
+      formData.set(input.name, input.checked ? 'true' : 'false');
+    });
+
     await api(`/api/admin/${resource}`, {
       method: 'POST',
-      body: JSON.stringify(serializeForm(form))
+      body: formData
     });
     form.reset();
     await loadDashboard();

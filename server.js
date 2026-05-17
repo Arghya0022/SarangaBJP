@@ -171,6 +171,9 @@ app.post("/api/membership", upload.single("image"), async (req, res, next) => {
     if (req.file) {
       body.image_url = "/uploads/" + req.file.filename;
     }
+    if (fields.all.includes('sort_order') && !body.sort_order) {
+  body.sort_order = 0;
+}
 
     validateRequired(body, ['full_name', 'phone', 'address']);
 
@@ -210,6 +213,34 @@ app.post("/api/membership", upload.single("image"), async (req, res, next) => {
 
     res.status(201).json(application);
 
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post('/api/admin/login', async (req, res, next) => {
+  try {
+    const password = req.body.password || '';
+
+    const ok = adminPassword.startsWith('$2')
+      ? await bcrypt.compare(password, adminPassword)
+      : crypto.timingSafeEqual(
+          Buffer.from(password.padEnd(adminPassword.length)),
+          Buffer.from(adminPassword.padEnd(password.length))
+        );
+
+    if (!ok) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    res.cookie('admin_token', createToken(), {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 12
+    });
+
+    res.json({ ok: true });
   } catch (error) {
     next(error);
   }
@@ -333,6 +364,10 @@ crudRoutes('leaders', 'leaders', {
 crudRoutes('updates', 'updates', {
   required: ['title', 'body'],
   all: ['title', 'body', 'category', 'event_date', 'image_url']
+});
+crudRoutes('events', 'updates', {
+  required: ['title'],
+  all: ['title', 'description', 'location', 'event_date', 'image_url']
 });
 crudRoutes('gallery', 'gallery_items', {
   required: ['title', 'image_url'],

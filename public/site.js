@@ -15,12 +15,7 @@ const fallbackData = {
     upiId: 'sarangabjp@exampleupi',
     qrImage: '/assets/donation-qr-placeholder.svg'
   },
-  leaders: [{
-    full_name: 'Saranga BJP Paribar',
-    designation: 'Local Leadership Team',
-    bio: 'Add leader details from the admin panel.',
-    image_url: '/assets/leader-placeholder.svg'
-  }],
+  leaders: [],
   updates: [{
     title: 'Membership and volunteer registration open',
     body: 'Submit details online and the admin team will review applications.',
