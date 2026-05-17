@@ -277,38 +277,35 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
       return res.status(400).json({ error: 'Invalid status' });
     }
 
-   if (status === 'rejected') {
-  if (pool) {
-    const rows = await query(
-      'SELECT * FROM membership_applications WHERE id = $1',
-      [req.params.id]
-    );
+    if (status === 'rejected') {
+      if (pool) {
+        const rows = await query(
+          'SELECT * FROM membership_applications WHERE id = $1',
+          [req.params.id]
+        );
 
-    const appRow = rows[0];
+        const appRow = rows[0];
 
-    if (appRow) {
-      await query(
-        'DELETE FROM members WHERE source_application_id = $1 OR phone = $2',
-        [req.params.id, appRow.phone]
-      );
-    }
+        if (appRow) {
+          await query(
+            'DELETE FROM members WHERE source_application_id = $1 OR phone = $2',
+            [req.params.id, appRow.phone]
+          );
+        }
 
-    await query(
-      'DELETE FROM membership_applications WHERE id = $1',
-      [req.params.id]
-    );
-  } else {
-    memory.members = memory.members.filter(
-      (item) => String(item.source_application_id) !== String(req.params.id)
-    );
+        await query(
+          'DELETE FROM membership_applications WHERE id = $1',
+          [req.params.id]
+        );
+      } else {
+        memory.members = memory.members.filter(
+          (item) => String(item.source_application_id) !== String(req.params.id)
+        );
 
-    memory.applications = memory.applications.filter(
-      (item) => String(item.id) !== String(req.params.id)
-    );
-  }
-
-  return res.json({ ok: true, deleted: true });
-}
+        memory.applications = memory.applications.filter(
+          (item) => String(item.id) !== String(req.params.id)
+        );
+      }
 
       return res.json({ ok: true, deleted: true });
     }
@@ -320,7 +317,10 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
       );
 
       const appRow = rows[0];
-      if (!appRow) return res.status(404).json({ error: 'Application not found' });
+
+      if (!appRow) {
+        return res.status(404).json({ error: 'Application not found' });
+      }
 
       if (status === 'approved') {
         await query(
@@ -345,7 +345,9 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
       (item) => String(item.id) === String(req.params.id)
     );
 
-    if (!application) return res.status(404).json({ error: 'Application not found' });
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
 
     application.status = status;
 
@@ -356,7 +358,8 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
         designation: designation || application.designation_requested || 'Member',
         phone: application.phone,
         village_or_ward: application.village_or_ward,
-        image_url: application.image_url
+        image_url: application.image_url,
+        source_application_id: application.id
       });
     }
 
