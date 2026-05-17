@@ -277,14 +277,38 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
       return res.status(400).json({ error: 'Invalid status' });
     }
 
-    if (status === 'rejected') {
-      if (pool) {
-        await query('DELETE FROM membership_applications WHERE id = $1', [req.params.id]);
-      } else {
-        memory.applications = memory.applications.filter(
-          (item) => String(item.id) !== String(req.params.id)
-        );
-      }
+   if (status === 'rejected') {
+  if (pool) {
+    const rows = await query(
+      'SELECT * FROM membership_applications WHERE id = $1',
+      [req.params.id]
+    );
+
+    const appRow = rows[0];
+
+    if (appRow) {
+      await query(
+        'DELETE FROM members WHERE source_application_id = $1 OR phone = $2',
+        [req.params.id, appRow.phone]
+      );
+    }
+
+    await query(
+      'DELETE FROM membership_applications WHERE id = $1',
+      [req.params.id]
+    );
+  } else {
+    memory.members = memory.members.filter(
+      (item) => String(item.source_application_id) !== String(req.params.id)
+    );
+
+    memory.applications = memory.applications.filter(
+      (item) => String(item.id) !== String(req.params.id)
+    );
+  }
+
+  return res.json({ ok: true, deleted: true });
+}
 
       return res.json({ ok: true, deleted: true });
     }
