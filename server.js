@@ -275,6 +275,18 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
     if (!['approved', 'rejected', 'pending'].includes(status)) {
       return res.status(400).json({ error: 'Invalid status' });
     }
+    if (status === 'rejected') {
+  if (pool) {
+    await query(
+      'DELETE FROM membership_applications WHERE id = $1',
+      [req.params.id]
+    );
+  } else {
+    memory.applications = memory.applications.filter(
+      (item) => String(item.id) !== String(req.params.id)
+    );
+  }
+  return res.json({ ok: true, deleted: true });
 
     if (pool) {
       const rows = await query(
