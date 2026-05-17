@@ -164,10 +164,14 @@ app.get('/api/site', async (req, res, next) => {
   }
 });
 
-app.post("/api/members", upload.single("image"), async (req, res) => {
-  // save member data here 
+app.post("/api/membership", upload.single("image"), async (req, res, next) => {
   try {
     const body = clean(req.body);
+
+    if (req.file) {
+      body.image_url = "/uploads/" + req.file.filename;
+    }
+
     validateRequired(body, ['full_name', 'phone', 'address']);
 
     if (pool) {
@@ -177,46 +181,35 @@ app.post("/api/members", upload.single("image"), async (req, res) => {
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
         RETURNING id, status, created_at`,
         [
-          body.full_name_নাম,
-          body.father_or_spouse_বাবা || null,
-          body.phone_ফোন_নম্বর,
-          body.email_মেইল || null,
-          body.address_ঠিকানা,
-          body.village_or_ward_গ্রাম || null,
-          body.booth_no_বুথ_নম্বর || null,
-          body.age_বয়স || null,
-          body.profession_পেশা || null,
+          body.full_name,
+          body.father_or_spouse || null,
+          body.phone,
+          body.email || null,
+          body.address,
+          body.village_or_ward || null,
+          body.booth_no || null,
+          body.age || null,
+          body.profession || null,
           body.designation_requested || null,
           body.image_url || null,
           body.message || null
         ]
       );
+
       return res.status(201).json(rows[0]);
     }
 
-    const application = { id: memory.applications.length + 1, ...body, status: 'pending', created_at: new Date().toISOString() };
+    const application = {
+      id: memory.applications.length + 1,
+      ...body,
+      status: 'pending',
+      created_at: new Date().toISOString()
+    };
+
     memory.applications.push(application);
+
     res.status(201).json(application);
-  } catch (error) {
-    next(error);
-  }
-});
 
-app.post('/api/admin/login', async (req, res, next) => {
-  try {
-    const password = req.body.password || '';
-    const ok = adminPassword.startsWith('$2')
-      ? await bcrypt.compare(password, adminPassword)
-      : crypto.timingSafeEqual(Buffer.from(password.padEnd(adminPassword.length)), Buffer.from(adminPassword.padEnd(password.length)));
-
-    if (!ok) return res.status(401).json({ error: 'Invalid password' });
-    res.cookie('admin_token', createToken(), {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
-      maxAge: 1000 * 60 * 60 * 12
-    });
-    res.json({ ok: true });
   } catch (error) {
     next(error);
   }

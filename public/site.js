@@ -71,7 +71,7 @@ function shellHeader() {
   document.querySelectorAll('.shell-header').forEach((header) => {
     header.innerHTML = `
       <a class="brand" href="/">
-        <span class="brand-mark">SBP</span>
+        <img src="/assets/logo.jpeg" alt="Saranga BJP Logo" class="brand-logo">
         <span><strong>Saranga BJP Paribar</strong><small>Nation First. Development for All.</small></span>
       </a>
       <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>

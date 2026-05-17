@@ -17,34 +17,48 @@
         <p>Fill in your details carefully. After submission, the admin team can review and approve your application.</p>
       </section>
 
-      <form class="panel-form" id="membership-form">
-        <div class="form-grid">
-          <label>Full Name<input name="full_name" required autocomplete="name"></label>
-          <label>Father/Spouse Name<input name="father_or_spouse"></label>
-          <label>Mobile Number<input name="phone" required inputmode="tel" autocomplete="tel"></label>
-          <label>Email<input name="email" type="email" autocomplete="email"></label>
-          <label>Village/Area<input name="village_or_ward" required></label>
-          <label>Booth No.<input name="booth_no"></label>
-          <label>Age<input name="age" type="number" min="18"></label>
-          <label>Occupation<input name="profession"></label>
-          <label>Interest
-            <select name="interest">
-              <option value="Membership">Membership</option>
-              <option value="Volunteer work">Volunteer work</option>
-              <option value="Booth work">Booth work</option>
-              <option value="Youth wing">Youth wing</option>
-              <option value="Social media">Social media</option>
-              <option value="Public service">Public service</option>
-            </select>
-          </label>
-          <label>Requested Designation<input name="designation_requested" placeholder="Member, Booth Worker, Coordinator"></label>
-          <label>Photo URL<input name="image_url" placeholder="https://..."></label>
-        </div>
-        <label>Full Address<textarea name="address" required rows="3"></textarea></label>
-        <label>Message<textarea name="message" rows="4" placeholder="Write a short note for the admin team"></textarea></label>
-        <button class="button primary" type="submit">Submit Application</button>
-        <p class="form-status" id="membership-status" role="status"></p>
-      </form>
+      <form class="panel-form" id="membership-form" enctype="multipart/form-data">
+  <div class="form-grid">
+    <label>Full Name / পূর্ণ নাম <span class="required">*</span><input name="full_name" required autocomplete="name"></label>
+    <label>Father/Spouse Name / পিতা/স্বামীর নাম<input name="father_or_spouse"></label>
+    <label>Mobile Number / মোবাইল নম্বর <span class="required">*</span><input name="phone" required inputmode="tel" autocomplete="tel"></label>
+    <label>Email / ইমেইল<input name="email" type="email" autocomplete="email"></label>
+    <label>Village/Area / গ্রাম/এলাকা <span class="required">*</span><input name="village_or_ward" required></label>
+    <label>Booth No. / বুথ নম্বর<input name="booth_no"></label>
+    <label>Age / বয়স<input name="age" type="number" min="18"></label>
+    <label>Occupation / পেশা<input name="profession"></label>
+
+    <label>Interest / আগ্রহ <span class="required">*</span>
+      <select name="interest" required>
+        <option value="Membership">Membership / সদস্যপদ</option>
+        <option value="Volunteer work">Volunteer work / স্বেচ্ছাসেবক কাজ</option>
+        <option value="Booth work">Booth work / বুথ কাজ</option>
+        <option value="Youth wing">Youth wing / যুব মোর্চা</option>
+        <option value="Social media">Social media / সোশ্যাল মিডিয়া</option>
+        <option value="Public service">Public service / জনসেবা</option>
+      </select>
+    </label>
+
+    <label>Requested Designation / পদের অনুরোধ<input name="designation_requested" placeholder="Member, Booth Worker, Coordinator"></label>
+
+    <label>
+  Photo Upload / ছবি আপলোড করুন
+  <span class="required">*</span>
+      <input
+  type="file"
+  name="image"
+  accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+  required
+>
+    </label>
+  </div>
+
+  <label>Full Address / সম্পূর্ণ ঠিকানা <span class="required">*</span><textarea name="address" required rows="3"></textarea></label>
+  <label>Message / বার্তা<textarea name="message" rows="4" placeholder="Write a short note for the admin team"></textarea></label>
+
+  <button class="button primary" type="submit">Submit Application / আবেদন জমা দিন</button>
+  <p class="form-status" id="membership-status" role="status"></p>
+</form>
     </main>
     <footer class="footer"></footer>
     <a class="whatsapp-float" id="whatsapp-float" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
