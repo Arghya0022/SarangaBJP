@@ -9,7 +9,24 @@ const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 
+const multer = require("multer");
+
 const app = express();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads/");
+  },
+
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({
+  storage: storage
+});
+
 const port = process.env.PORT || 3000;
 const sessionSecret = process.env.SESSION_SECRET || 'development-secret-change-me';
 const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
