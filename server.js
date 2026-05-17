@@ -164,7 +164,8 @@ app.get('/api/site', async (req, res, next) => {
   }
 });
 
-app.post('/api/membership', async (req, res, next) => {
+app.post("/api/members", upload.single("image"), async (req, res) => {
+  // save member data here 
   try {
     const body = clean(req.body);
     validateRequired(body, ['full_name', 'phone', 'address']);
@@ -176,15 +177,15 @@ app.post('/api/membership', async (req, res, next) => {
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
         RETURNING id, status, created_at`,
         [
-          body.full_name,
-          body.father_or_spouse || null,
-          body.phone,
-          body.email || null,
-          body.address,
-          body.village_or_ward || null,
-          body.booth_no || null,
-          body.age || null,
-          body.profession || null,
+          body.full_name_নাম,
+          body.father_or_spouse_বাবা || null,
+          body.phone_ফোন_নম্বর,
+          body.email_মেইল || null,
+          body.address_ঠিকানা,
+          body.village_or_ward_গ্রাম || null,
+          body.booth_no_বুথ_নম্বর || null,
+          body.age_বয়স || null,
+          body.profession_পেশা || null,
           body.designation_requested || null,
           body.image_url || null,
           body.message || null
@@ -296,9 +297,12 @@ app.patch('/api/admin/applications/:id', requireAdmin, async (req, res, next) =>
 });
 
 function crudRoutes(name, table, fields) {
-  app.post(`/api/admin/${name}`, requireAdmin, async (req, res, next) => {
+  app.post(`/api/admin/${name}`, requireAdmin, upload.single("image"), async (req, res, next) => {
     try {
       const body = clean(req.body);
+      if (req.file) {
+  body.image_url = "/uploads/" + req.file.filename;
+}
       validateRequired(body, fields.required);
       if (pool) {
         const columns = fields.all;

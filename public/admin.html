@@ -65,54 +65,109 @@
 
           <section class="admin-block">
             <h2>Add News/Update</h2>
-            <form class="stack-form" data-create="updates">
-              <input name="title" placeholder="Title" required>
-              <input name="category" placeholder="Category, e.g. Rally">
-              <input name="event_date" type="date">
-              <input name="file" accept="image/*">
-              <textarea name="body" placeholder="Description" required></textarea>
-              <button class="button secondary" type="submit">Publish News</button>
-            </form>
-          </section>
+            <form class="stack-form" data-create="updates" enctype="multipart/form-data">
+
+  <input name="title" placeholder="Title" required>
+
+  <input name="category" placeholder="Category, e.g. Rally">
+
+  <input name="event_date" type="date">
+
+  <input type="file" name="image" accept="image/*">
+
+  <textarea name="body" placeholder="Description" required></textarea>
+
+  <button class="button secondary" type="submit">
+    Publish News
+  </button>
+
+</form>
 
           <section class="admin-block">
             <h2>Add Event</h2>
-            <form class="stack-form" data-create="events">
-              <input name="title" placeholder="Event name" required>
-              <input name="place" placeholder="Place" required>
-              <input name="event_date" type="date" required>
-              <input name="event_time" placeholder="Time, e.g. 10:00 AM">
-              <input name="file" accept="image/*">
-              <textarea name="description" placeholder="Event details" required></textarea>
-              <button class="button secondary" type="submit">Save Event</button>
-            </form>
-          </section>
+            <form class="stack-form" data-create="events" enctype="multipart/form-data">
+
+  <input name="title" placeholder="Event title" required>
+
+  <input name="location" placeholder="Location">
+
+  <input name="event_date" type="date">
+
+  <input type="file" name="image" accept="image/*">
+
+  <textarea name="description" placeholder="Event details"></textarea>
+
+  <button class="button secondary" type="submit">
+    Add Event
+  </button>
+
+</form>
 
           <section class="admin-block">
-            <h2>Add Gallery Photo/Video</h2>
-            <form class="stack-form" data-create="gallery">
-              <input name="title" placeholder="Title" required>
-              <input name="file" accept="image/*" required>
-              <input name="file" accept="video/*">
-              <input name="caption" placeholder="Caption">
-              <input name="sort_order" type="number" placeholder="Sort order">
-              <button class="button secondary" type="submit">Add Media</button>
-            </form>
-          </section>
+
+  <h2>Add Gallery Photo/Video</h2>
+
+  <form class="stack-form"
+        data-create="gallery"
+        enctype="multipart/form-data">
+
+    <input
+      name="title"
+      placeholder="Title"
+      required>
+
+    <!-- IMAGE UPLOAD -->
+    <input
+      type="file"
+      name="image"
+      accept="image/*">
+
+    <!-- VIDEO UPLOAD -->
+    <input
+      type="file"
+      name="video"
+      accept="video/*">
+
+    <input
+      name="caption"
+      placeholder="Caption">
+
+    <input
+      name="sort_order"
+      type="number"
+      placeholder="Sort order">
+
+    <button
+      class="button secondary"
+      type="submit">
+
+      Add Media
+
+    </button>
+
+  </form>
+
+</section>
 
           <section class="admin-block">
-            <h2>Add Member Manually</h2>
-            <form class="stack-form" data-create="members">
-              <input name="full_name" placeholder="Full name" required>
-              <input name="designation" placeholder="Designation" required>
-              <input name="phone" placeholder="Phone">
-              <input name="village_or_ward" placeholder="Village/Ward">
-              <input name="file" accept="image/*">
-              <input name="social_url" placeholder="Social link">
-              <label class="checkbox"><input name="is_featured" type="checkbox"> Featured member</label>
-              <button class="button secondary" type="submit">Add Member</button>
-            </form>
-          </section>
+  <h2>Add Member Manually</h2>
+
+  <form class="stack-form" data-create="members" enctype="multipart/form-data">
+    <input name="full_name" placeholder="Full name" required>
+    <input name="designation" placeholder="Designation" required>
+    <input name="phone" placeholder="Phone">
+    <input name="village_or_ward" placeholder="Village/Ward">
+    <input type="file" name="image" accept="image/*">
+    <input name="social_url" placeholder="Social link">
+
+    <label class="checkbox">
+      <input name="is_featured" type="checkbox">
+      Featured member
+    </label>
+
+    <button class="button secondary" type="submit">Add Member</button>
+  </form>
+</section>
         </div>
       </section>
     </main>
