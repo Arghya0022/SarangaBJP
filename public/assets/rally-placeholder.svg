@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 820">
+  <rect width="1200" height="820" fill="#fff8ec"/>
+  <rect x="0" y="0" width="1200" height="260" fill="#ff9933" opacity=".25"/>
+  <path d="M0 650C210 560 390 690 605 610C830 528 1000 570 1200 625V820H0Z" fill="#138a45" opacity=".22"/>
+  <g fill="#17223b">
+    <circle cx="250" cy="500" r="42"/><circle cx="390" cy="475" r="46"/><circle cx="535" cy="500" r="42"/>
+    <circle cx="690" cy="472" r="46"/><circle cx="850" cy="500" r="42"/>
+  </g>
+  <g fill="#ff9933">
+    <path d="M170 690C190 590 220 545 250 545C280 545 320 590 335 690Z"/>
+    <path d="M310 690C332 575 360 525 390 525C425 525 470 575 488 690Z"/>
+  </g>
+  <g fill="#138a45">
+    <path d="M455 690C475 590 505 545 535 545C565 545 605 590 620 690Z"/>
+    <path d="M610 690C632 575 660 525 690 525C725 525 770 575 788 690Z"/>
+    <path d="M770 690C790 590 820 545 850 545C880 545 920 590 935 690Z"/>
+  </g>
+  <text x="600" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="#17223b">Public Meetings</text>
+</svg>

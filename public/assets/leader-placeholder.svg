@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#fff0db"/>
+  <circle cx="400" cy="225" r="92" fill="#17223b"/>
+  <path d="M225 520C250 388 320 340 400 340C480 340 550 388 575 520Z" fill="#ff9933"/>
+  <path d="M130 92H670V138H130Z" fill="#138a45"/>
+  <text x="400" y="558" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="800" fill="#17223b">Leadership</text>
+</svg>
