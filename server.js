@@ -423,10 +423,174 @@ crudRoutes('gallery', 'gallery_items', {
   all: ['title', 'image_url', 'caption', 'sort_order']
 });
 crudRoutes('members', 'members', {
-  required: ['full_name', 'designation'],
+required: ['full_name', 'designation'],
   all: ['full_name', 'designation', 'phone', 'village_or_ward', 'image_url', 'is_featured']
 });
+// MEMBER SET PASSWORD
+app.post('/api/member/set-password', async (req, res, next) => {
+  try {
 
+    const { phone, password } = clean(req.body);
+
+    if (!phone || !password) {
+      return res.status(400).json({
+        error: 'Phone and password required'
+      });
+    }
+
+    const rows = await query(
+      `SELECT * FROM membership_applications
+       WHERE phone = $1 AND status = 'approved'
+       LIMIT 1`,
+      [phone]
+    );
+
+    const member = rows[0];
+
+    if (!member) {
+      return res.status(404).json({
+        error: 'Approved member not found'
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await query(
+      `UPDATE membership_applications
+       SET password_hash = $1,
+           updated_at = NOW()
+       WHERE id = $2`,
+      [hashedPassword, member.id]
+    );
+
+    res.json({
+      ok: true,
+      message: 'Password created successfully'
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
+// MEMBER LOGIN
+app.post('/api/member/login', async (req, res, next) => {
+  try {
+
+    const { phone, password } = clean(req.body);
+
+    const rows = await query(
+      `SELECT * FROM membership_applications
+       WHERE phone = $1
+       AND status = 'approved'
+       LIMIT 1`,
+      [phone]
+    );
+
+    const member = rows[0];
+
+    if (!member || !member.password_hash) {
+      return res.status(401).json({
+        error: 'Invalid login'
+      });
+    }
+
+    const valid = await bcrypt.compare(
+      password,
+      member.password_hash
+    );
+
+    if (!valid) {
+      return res.status(401).json({
+        error: 'Wrong password'
+      });
+    }
+
+    const token = Buffer.from(JSON.stringify({
+      id: member.id,
+      phone: member.phone,
+      role: member.role || 'member',
+      exp: Date.now() + (1000 * 60 * 60 * 24)
+    })).toString('base64');
+
+    res.cookie('member_token', token, {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24
+    });
+
+    res.json({
+      ok: true,
+      member: {
+        id: member.id,
+        full_name: member.full_name,
+        phone: member.phone,
+        role: member.role
+      }
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
+// MEMBER PROFILE
+app.get('/api/member/profile', async (req, res, next) => {
+  try {
+
+    const token = req.cookies.member_token;
+
+    if (!token) {
+      return res.status(401).json({
+        error: 'Login required'
+      });
+    }
+
+    const decoded = JSON.parse(
+      Buffer.from(token, 'base64').toString('utf8')
+    );
+
+    if (decoded.exp < Date.now()) {
+      return res.status(401).json({
+        error: 'Session expired'
+      });
+    }
+
+    const rows = await query(
+      `SELECT
+        full_name,
+        phone,
+        village_or_ward,
+        profession,
+        designation_requested,
+        image_url,
+        role,
+        created_at
+      FROM membership_applications
+      WHERE id = $1
+      LIMIT 1`,
+      [decoded.id]
+    );
+
+    const member = rows[0];
+
+    if (!member) {
+      return res.status(404).json({
+        error: 'Member not found'
+      });
+    }
+
+    res.json(member);
+
+  } catch (error) {
+    next(error);
+  }
+});
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
