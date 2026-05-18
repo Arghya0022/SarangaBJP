@@ -117,7 +117,16 @@ CREATE TABLE IF NOT EXISTS admin_users (
   password_hash TEXT NOT NULL,
 
   role TEXT NOT NULL
-    CHECK (role IN ('admin', 'leader', 'president', 'moderator')),
+    CHECK (role IN (
+  'super_admin',
+  'president',
+  'general_secretary',
+  'leader',
+  'booth_head',
+  'booth_president',
+  'administrator',
+  'coordinator'
+)),
 
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -181,4 +190,39 @@ SELECT
 
 WHERE NOT EXISTS (
   SELECT 1 FROM gallery_items
+);
+
+CREATE TABLE IF NOT EXISTS admin_applications (
+  id SERIAL PRIMARY KEY,
+
+  full_name TEXT NOT NULL,
+  phone TEXT NOT NULL UNIQUE,
+  email TEXT,
+  address TEXT,
+
+  requested_role TEXT NOT NULL CHECK (
+    requested_role IN (
+      'president',
+      'general_secretary',
+      'leader',
+      'booth_head',
+      'booth_president',
+      'administrator',
+      'coordinator'
+    )
+  ),
+
+  image_url TEXT,
+  message TEXT,
+
+  status TEXT NOT NULL DEFAULT 'pending'
+    CHECK (status IN ('pending', 'approved', 'rejected')),
+
+  password_hash TEXT,
+
+  approved_by TEXT,
+  approved_at TIMESTAMPTZ,
+
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
