@@ -98,64 +98,232 @@
           <p class="eyebrow">Upcoming Events</p>
           <h2>Programs and meetings</h2>
           <a class="inline-link" href="/events.html">View schedule</a>
-        </div>
-        <div class="event-list" id="home-events"></div>
-      </section>
+        <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-      <section class="section gallery-section">
-        <div class="section-heading">
-          <p class="eyebrow">Photo Gallery</p>
-          <h2>Campaigns, meetings, and public work</h2>
-          <a class="inline-link" href="/gallery.html">Open gallery</a>
-        </div>
-        <div class="gallery-grid compact" id="home-gallery"></div>
-      </section>
+  <meta name="description"
+        content="Official website of Saranga BJP Paribar with local leadership, news, events, gallery, membership, volunteer registration, and contact details.">
 
-      <section class="section" id="leadership-preview">
-        <div class="section-heading">
-          <p class="eyebrow">Our Leaders</p>
-          <h2>Local responsibility holders</h2>
-          <a class="inline-link" href="/leadership.html">View leadership</a>
-        </div>
-        <div class="people-grid" id="home-leaders"></div>
-      </section>
+  <meta name="keywords"
+        content="Saranga BJP, Saranga BJP Paribar, BJP Saranga">
 
-      <section class="section schemes-section">
-        <div>
-          <p class="eyebrow">Awareness</p>
-          <h2>Government scheme information</h2>
-          <p>Use this section to highlight local awareness work around public welfare and development schemes.</p>
-        </div>
-        <div class="scheme-grid">
-          <article><h3>PMAY</h3><p>Housing scheme awareness and local guidance.</p></article>
-          <article><h3>Ayushman Bharat</h3><p>Health benefit information for eligible families.</p></article>
-          <article><h3>PM Kisan</h3><p>Farmer support and registration awareness.</p></article>
-          <article><h3>Mudra Loan</h3><p>Small business and self-employment awareness.</p></article>
-        </div>
-      </section>
+  <title>Saranga BJP Paribar | Official Website</title>
 
-      <section class="section donation-section">
-        <div>
-          <p class="eyebrow">Donation</p>
-          <h2>Support local organizational work</h2>
-          <p>Donation details are configurable from Render environment variables, so UPI ID or QR image can be changed later without editing the website code.</p>
-          <p class="upi-line">UPI ID: <strong id="upi-id">Loading...</strong></p>
-        </div>
-        <img class="qr" id="qr-image" src="/assets/donation-qr-placeholder.svg" alt="Donation QR code">
-      </section>
+  <link rel="stylesheet" href="/styles.css">
+</head>
 
-      <section class="section join-strip">
-        <div>
-          <p class="eyebrow">Volunteer Registration</p>
-          <h2>Become part of Saranga BJP Paribar</h2>
-          <p>Submit your details online and the local admin team can review your application.</p>
-        </div>
-        <a class="button primary" href="/membership.html">Apply Now</a>
-      </section>
-    </main>
+<body data-page="home">
 
-    <footer class="footer"></footer>
-    <a class="whatsapp-float" id="whatsapp-float" href="#" target="_blank" rel="noreferrer">WhatsApp</a>
-    <script src="/site.js"></script>
-  </body>
+  <div class="announcement"
+       data-i18n="announcement">
+       Welcome to Saranga BJP Paribar Official Website
+  </div>
+
+  <header class="site-header">
+
+    <a class="brand" href="/">
+
+      <img src="/assets/logo.jpeg"
+           alt="Saranga BJP Logo"
+           class="brand-logo">
+
+      <span>
+        <strong data-i18n="siteTitle">
+          Saranga BJP Paribar
+        </strong>
+
+        <small data-i18n="siteSubtitle">
+          Nation First. Development for All.
+        </small>
+      </span>
+
+    </a>
+
+    <div class="top-buttons">
+
+      <button id="languageToggle"
+              class="lang-btn">
+        বাংলা
+      </button>
+
+      <button class="menu-button"
+              type="button"
+              aria-label="Open navigation"
+              aria-expanded="false"
+              data-i18n="menu">
+
+        Menu
+
+      </button>
+
+    </div>
+
+    <nav class="nav">
+
+      <a href="/"
+         data-i18n="home">
+         Home
+      </a>
+
+      <a href="/about.html"
+         data-i18n="about">
+         About
+      </a>
+
+      <a href="/leadership.html"
+         data-i18n="leadership">
+         Leadership
+      </a>
+
+      <a href="/news.html"
+         data-i18n="news">
+         News
+      </a>
+
+      <a href="/events.html"
+         data-i18n="events">
+         Events
+      </a>
+
+      <a href="/gallery.html"
+         data-i18n="gallery">
+         Gallery
+      </a>
+
+      <a href="/contact.html"
+         data-i18n="contact">
+         Contact
+      </a>
+
+      <a class="nav-cta"
+         href="/membership.html"
+         data-i18n="joinUs">
+
+         Join Us
+
+      </a>
+
+    </nav>
+
+  </header>
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-copy">
+
+        <p class="eyebrow"
+           data-i18n="location">
+           Saranga, Khandaghosh, West Bengal
+        </p>
+
+        <h1 data-i18n="heroTitle">
+          Welcome to Saranga BJP Paribar
+        </h1>
+
+        <p class="hero-text"
+           data-i18n="heroText">
+
+          Together for a stronger Saranga through public service,
+          organization, volunteer work, development awareness,
+          and local community connection.
+
+        </p>
+
+        <div class="slogan-row">
+
+          <span data-i18n="slogan1">
+            Nation First
+          </span>
+
+          <span data-i18n="slogan2">
+            Development for All
+          </span>
+
+          <span data-i18n="slogan3">
+            Stronger Saranga
+          </span>
+
+        </div>
+
+        <div class="hero-actions">
+
+          <a class="button primary"
+             href="/membership.html"
+             data-i18n="joinButton">
+
+             Join BJP Saranga
+
+          </a>
+
+          <a class="button secondary"
+             href="/events.html"
+             data-i18n="eventButton">
+
+             Upcoming Events
+
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="hero-media">
+
+        <img class="slider-image active"
+             src="/assets/hero-saranga.svg">
+
+        <img class="slider-image"
+             src="/assets/rally-placeholder.svg">
+
+        <img class="slider-image"
+             src="/assets/service-placeholder.svg">
+
+        <div class="hero-stat-grid">
+
+          <span>
+            <strong id="stat-members">0</strong>
+
+            <span data-i18n="members">
+              Members
+            </span>
+          </span>
+
+          <span>
+            <strong id="stat-events">0</strong>
+
+            <span data-i18n="events">
+              Events
+            </span>
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer"></footer>
+
+  <a class="whatsapp-float"
+     id="whatsapp-float"
+     href="#"
+     target="_blank"
+     rel="noreferrer">
+
+     WhatsApp
+
+  </a>
+
+  <script src="/site.js"></script>
+
+  <script src="/scripts/lang.js"></script>
+
+</body>
 </html>
