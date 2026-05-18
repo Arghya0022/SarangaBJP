@@ -66,19 +66,27 @@ function shellHeader() {
   document.querySelectorAll('.shell-header').forEach((header) => {
     header.innerHTML = `
       <a class="brand" href="/">
-        <img src="/assets/logo.jpeg" alt="Saranga BJP Logo" class="brand-logo">
-        <span><strong>Saranga BJP Paribar</strong><small>Nation First. Development for All.</small></span>
-      </a>
-      <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false">Menu</button>
-      <nav class="nav">
-        <a href="/">Home</a>
-        <a href="/about.html">About</a>
-        <a href="/leadership.html">Leadership</a>
-        <a href="/news.html">News</a>
-        <a href="/events.html">Events</a>
-        <a href="/gallery.html">Gallery</a>
-        <a href="/contact.html">Contact</a>
-        <a class="nav-cta" href="/membership.html">Join Us</a>
+  <img src="/assets/logo.jpeg" alt="Saranga BJP Logo" class="brand-logo">
+  <span>
+    <strong data-i18n="siteTitle">Saranga BJP Paribar</strong>
+    <small data-i18n="siteSubtitle">Nation First. Development for All.</small>
+  </span>
+</a>
+
+<div class="top-buttons">
+  <button id="languageToggle" class="lang-btn">বাংলা</button>
+  <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-i18n="menu">Menu</button>
+</div>
+
+<nav class="nav">
+  <a href="/" data-i18n="home">Home</a>
+  <a href="/about.html" data-i18n="about">About</a>
+  <a href="/leadership.html" data-i18n="leadership">Leadership</a>
+  <a href="/news.html" data-i18n="news">News</a>
+  <a href="/events.html" data-i18n="events">Events</a>
+  <a href="/gallery.html" data-i18n="gallery">Gallery</a>
+  <a href="/contact.html" data-i18n="contact">Contact</a>
+  <a class="nav-cta" href="/membership.html" data-i18n="joinUs">Join Us</a>
       </nav>
     `;
   });
@@ -170,7 +178,7 @@ function renderEvents(target, items) {
         <p>${esc(item.description)}</p>
       </div>
     </article>
-  `).join('') : '<p class="empty-state">Upcoming events will appear here.</p>';
+  `).join('') : <p data-i18n="upcomingEventsEmpty">Upcoming events will appear here.</p>;
 }
 
 function renderGallery(target, items) {
