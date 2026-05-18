@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Super Admin Login | Saranga BJP Paribar</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <header class="site-header shell-header"></header>
+
+  <main class="form-page">
+    <section class="form-intro">
+      <p class="eyebrow">Super Admin Login</p>
+      <h1>Owner Control Panel</h1>
+      <p>Only the main website owner can login here.</p>
+    </section>
+
+    <form id="super-admin-login-form" class="panel-form">
+      <label>
+        Phone Number
+        <input name="phone" required>
+      </label>
+
+      <label>
+        Password
+        <input name="password" type="password" required>
+      </label>
+
+      <button class="button primary" type="submit">Login as Super Admin</button>
+
+      <p id="super-admin-login-status" class="form-status"></p>
+    </form>
+  </main>
+
+  <footer class="footer"></footer>
+
+  <script src="/site.js"></script>
+
+  <script>
+    const form = document.querySelector('#super-admin-login-form');
+    const status = document.querySelector('#super-admin-login-status');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      status.textContent = 'Checking login...';
+
+      try {
+        const response = await fetch('/api/super-admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phone: form.phone.value.trim(),
+            password: form.password.value.trim()
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Login failed');
+        }
+
+        status.textContent = 'Login successful. Opening dashboard...';
+
+        window.location.href = '/admin.html';
+
+      } catch (error) {
+        status.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>
