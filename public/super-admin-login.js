@@ -9,6 +9,7 @@ form.addEventListener('submit', async function (event) {
   try {
     const response = await fetch('/api/super-admin/login', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },

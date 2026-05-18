@@ -341,3 +341,46 @@ document.querySelector('#logout-button')?.addEventListener('click', async () => 
 });
 
 loadDashboard().catch(showLogin);
+
+
+async function loadAdminApplications() {
+  try {
+    const response = await fetch('/api/super-admin/admin-applications', {
+      credentials: 'include'
+    });
+
+    const applications = await response.json();
+
+    const table = document.querySelector('#admin-applications-table');
+
+    if (!table) return;
+
+    if (!applications.length) {
+      table.innerHTML = `
+        <tr>
+          <td colspan="5">No admin/leader applications yet.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    table.innerHTML = applications.map(app => `
+      <tr>
+        <td>${app.full_name}</td>
+        <td>${app.phone}</td>
+        <td>${app.requested_role}</td>
+        <td>${app.status}</td>
+        <td>
+          <button onclick="approveAdmin(${app.id})">
+            Approve
+          </button>
+        </td>
+      </tr>
+    `).join('');
+
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+loadAdminApplications();
