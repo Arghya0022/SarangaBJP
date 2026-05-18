@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apply for Admin Role | Saranga BJP Paribar</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+  <header class="site-header shell-header"></header>
+
+  <main class="form-page">
+    <section class="form-intro">
+      <p class="eyebrow">Admin Role Application</p>
+      <h1>Apply as Leader / President / Coordinator</h1>
+      <p>Your request will be reviewed and approved only by Super Admin.</p>
+    </section>
+
+    <form id="admin-apply-form" class="panel-form" enctype="multipart/form-data">
+      <div class="form-grid">
+        <label>Full Name <input name="full_name" required></label>
+        <label>Phone Number <input name="phone" required></label>
+        <label>Email <input name="email" type="email"></label>
+        <label>Address <input name="address"></label>
+
+        <label>
+          Requested Role
+          <select name="requested_role" required>
+            <option value="president">President</option>
+            <option value="general_secretary">General Secretary</option>
+            <option value="leader">Leader</option>
+            <option value="booth_head">Booth Head</option>
+            <option value="booth_president">Booth President</option>
+            <option value="administrator">Administrator</option>
+            <option value="coordinator">Coordinator</option>
+          </select>
+        </label>
+
+        <label>
+          Upload Photo
+          <input type="file" name="image" accept="image/*">
+        </label>
+      </div>
+
+      <label>
+        Message
+        <textarea name="message" rows="4"></textarea>
+      </label>
+
+      <button class="button primary" type="submit">Submit Role Application</button>
+
+      <p id="admin-apply-status" class="form-status"></p>
+    </form>
+  </main>
+
+  <footer class="footer"></footer>
+
+  <script src="/site.js"></script>
+
+  <script>
+    const form = document.querySelector('#admin-apply-form');
+    const status = document.querySelector('#admin-apply-status');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      status.textContent = 'Submitting application...';
+
+      try {
+        const formData = new FormData(form);
+
+        const response = await fetch('/api/admin-application', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) throw new Error(data.error);
+
+        status.textContent = 'Application submitted successfully. Wait for Super Admin approval.';
+
+        form.reset();
+
+      } catch (error) {
+        status.textContent = error.message;
+      }
+    });
+  </script>
+</body>
+</html>

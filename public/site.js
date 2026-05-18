@@ -86,6 +86,9 @@ function shellHeader() {
   <a href="/events.html" data-i18n="events">Events</a>
   <a href="/gallery.html" data-i18n="gallery">Gallery</a>
   <a href="/contact.html" data-i18n="contact">Contact</a>
+  <a href="/member-login.html">Member Login</a>
+<a href="/admin-login.html">Admin Login</a>
+<a href="/admin-apply.html">Apply Admin</a>
   <a class="nav-cta" href="/membership.html" data-i18n="joinUs">Join Us</a>
       </nav>
     `;

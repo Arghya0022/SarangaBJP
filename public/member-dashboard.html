@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+  <title>Member Dashboard | Saranga BJP Paribar</title>
+
+  <link rel="stylesheet"
+        href="/styles.css">
+
+</head>
+
+<body>
+
+  <header class="site-header shell-header"></header>
+
+  <main class="admin-page">
+
+    <section class="dashboard">
+
+      <div class="section-heading">
+
+        <p class="eyebrow">
+          Member Dashboard
+        </p>
+
+        <h1 id="member-name">
+          Loading...
+        </h1>
+
+        <button
+          class="button secondary"
+          id="logout-button">
+
+          Logout
+
+        </button>
+
+      </div>
+
+      <div class="admin-grid">
+
+        <section class="admin-block">
+
+          <h2>
+            Profile Information
+          </h2>
+
+          <div class="profile-card">
+
+            <img
+              id="member-image"
+              src="/assets/leader-placeholder.svg"
+              class="profile-avatar"
+              alt="Member photo">
+
+            <p>
+              <strong>Phone:</strong>
+              <span id="member-phone"></span>
+            </p>
+
+            <p>
+              <strong>Village/Ward:</strong>
+              <span id="member-area"></span>
+            </p>
+
+            <p>
+              <strong>Profession:</strong>
+              <span id="member-profession"></span>
+            </p>
+
+            <p>
+              <strong>Role:</strong>
+              <span id="member-role"></span>
+            </p>
+
+            <p>
+              <strong>Joined:</strong>
+              <span id="member-joined"></span>
+            </p>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer"></footer>
+
+  <script src="/site.js"></script>
+
+  <script>
+
+    async function loadProfile() {
+
+      try {
+
+        const response =
+          await fetch('/api/member/profile');
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error);
+        }
+
+        document.querySelector('#member-name')
+          .textContent = data.full_name;
+
+        document.querySelector('#member-phone')
+          .textContent = data.phone || '-';
+
+        document.querySelector('#member-area')
+          .textContent = data.village_or_ward || '-';
+
+        document.querySelector('#member-profession')
+          .textContent = data.profession || '-';
+
+        document.querySelector('#member-role')
+          .textContent = data.role || 'member';
+
+        document.querySelector('#member-joined')
+          .textContent =
+            new Date(data.created_at)
+              .toLocaleDateString();
+
+        if (data.image_url) {
+
+          document.querySelector('#member-image')
+            .src = data.image_url;
+
+        }
+
+      } catch (error) {
+
+        window.location.href =
+          '/member-login.html';
+
+      }
+
+    }
+
+    document.querySelector('#logout-button')
+      .addEventListener('click', async () => {
+
+        document.cookie =
+          'member_token=; Max-Age=0; path=/';
+
+        window.location.href =
+          '/member-login.html';
+
+      });
+
+    loadProfile();
+
+  </script>
+
+</body>
+</html>
