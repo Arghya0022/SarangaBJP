@@ -226,3 +226,18 @@ CREATE TABLE IF NOT EXISTS admin_applications (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+CREATE TABLE IF NOT EXISTS admin_applications (
+    id SERIAL PRIMARY KEY,
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT,
+    address TEXT,
+    requested_role TEXT NOT NULL,
+    image_url TEXT,
+    message TEXT,
+    status TEXT DEFAULT 'pending',
+    approved_by TEXT,
+    approved_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
+);
