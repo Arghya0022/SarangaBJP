@@ -449,6 +449,7 @@ const ADMIN_ROLES = [
 function createAdminToken(user) {
   const payload = JSON.stringify({
     id: user.id,
+    full_name: user.full_name,
     phone: user.phone,
     role: user.role,
     exp: Date.now() + 1000 * 60 * 60 * 12
