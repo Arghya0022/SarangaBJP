@@ -927,3 +927,15 @@ th {
     flex-direction: column;
   }
 }
+@media (max-width: 980px) {
+  .nav {
+    display: none !important;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav.open {
+    display: flex !important;
+  }
+}

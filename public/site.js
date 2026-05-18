@@ -75,7 +75,7 @@ function shellHeader() {
 
 <div class="top-buttons">
   <button id="languageToggle" class="lang-btn">বাংলা</button>
-  <button class="menu-button" type="button" aria-label="Open navigation" aria-expanded="false" data-i18n="menu">Menu</button>
+  <button class="menu-button" type="button" onclick="toggleMenu()">Menu</button>
 </div>
 
 <nav class="nav">
@@ -219,6 +219,14 @@ function setupLightbox() {
     img.src = '';
   });
 }
+
+function toggleMenu() {
+  const nav = document.querySelector(".nav");
+  if (nav) {
+    nav.classList.toggle("open");
+  }
+}
+
 
 function renderContact(data) {
   const contact = document.querySelector('#contact-details');
