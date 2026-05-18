@@ -190,7 +190,7 @@ function renderEvents(target, items) {
         <p>${esc(item.description)}</p>
       </div>
     </article>
-  `).join('') : <p data-i18n="upcomingEventsEmpty">Upcoming events will appear here.</p>;
+  `).join('') : '<p data-i18n="upcomingEventsEmpty">Upcoming events will appear here.</p>';
 }
 
 function renderGallery(target, items) {
