@@ -241,3 +241,18 @@ CREATE TABLE IF NOT EXISTS admin_applications (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW()
 );
+ALTER TABLE admin_users
+DROP CONSTRAINT IF EXISTS admin_users_role_check;
+
+ALTER TABLE admin_users
+ADD CONSTRAINT admin_users_role_check
+CHECK (role IN (
+  'super_admin',
+  'president',
+  'general_secretary',
+  'leader',
+  'booth_head',
+  'booth_president',
+  'administrator',
+  'coordinator'
+));
