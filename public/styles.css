@@ -939,3 +939,29 @@ th {
     display: flex !important;
   }
 }
+@media (max-width: 980px) {
+
+  .nav {
+    display: none;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    padding: 20px;
+    background: white;
+  }
+
+  #mobile-menu-toggle:checked ~ .nav {
+    display: flex;
+  }
+
+  .menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: #f3f3f3;
+    cursor: pointer;
+    font-weight: 700;
+  }
+}

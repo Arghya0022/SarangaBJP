@@ -75,22 +75,27 @@ function shellHeader() {
 
 <div class="top-buttons">
   <button id="languageToggle" class="lang-btn">বাংলা</button>
-  <button class="menu-button" type="button" onclick="toggleMenu()">Menu</button>
 </div>
 
+<input type="checkbox" id="mobile-menu-toggle" hidden>
+
+<label for="mobile-menu-toggle" class="menu-button">
+  Menu
+</label>
+
 <nav class="nav">
-  <a href="/" data-i18n="home">Home</a>
-  <a href="/about.html" data-i18n="about">About</a>
-  <a href="/leadership.html" data-i18n="leadership">Leadership</a>
-  <a href="/news.html" data-i18n="news">News</a>
-  <a href="/events.html" data-i18n="events">Events</a>
-  <a href="/gallery.html" data-i18n="gallery">Gallery</a>
-  <a href="/contact.html" data-i18n="contact">Contact</a>
+  <a href="/">Home</a>
+  <a href="/about.html">About</a>
+  <a href="/leadership.html">Leadership</a>
+  <a href="/news.html">News</a>
+  <a href="/events.html">Events</a>
+  <a href="/gallery.html">Gallery</a>
+  <a href="/contact.html">Contact</a>
   <a href="/member-login.html">Member Login</a>
-<a href="/admin-login.html">Admin Login</a>
-<a href="/admin-apply.html">Apply Admin</a>
-  <a class="nav-cta" href="/membership.html" data-i18n="joinUs">Join Us</a>
-      </nav>
+  <a href="/admin-login.html">Admin Login</a>
+  <a href="/admin-apply.html">Apply Admin</a>
+  <a class="nav-cta" href="/membership.html">Join Us</a>
+</nav>
     `;
   });
 }
