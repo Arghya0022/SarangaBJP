@@ -96,21 +96,19 @@ function shellHeader() {
 }
 
 function setupMenu() {
-  document.querySelectorAll('.menu-button').forEach((button) => {
 
-    button.addEventListener('click', () => {
+  const button = document.querySelector('.menu-button');
 
-      const nav = document.querySelector('.nav');
+  const nav = document.querySelector('.nav');
 
-      if (!nav) return;
+  if (!button || !nav) return;
 
-      const open = nav.classList.toggle('open');
+  button.addEventListener('click', () => {
 
-      button.setAttribute('aria-expanded', String(open));
-
-    });
+    nav.classList.toggle('open');
 
   });
+
 }
 
 function setupSlider() {
