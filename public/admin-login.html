@@ -39,36 +39,40 @@
   <script src="/site.js"></script>
 
   <script>
-    const form = document.querySelector('#admin-login-form');
-    const status = document.querySelector('#admin-login-status');
+const form = document.querySelector('#admin-login-form');
+const status = document.querySelector('#admin-login-status');
 
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
+form.addEventListener('submit', async function (event) {
+  event.preventDefault();
 
-      status.textContent = 'Logging in...';
+  status.textContent = 'Checking login...';
 
-      try {
-        const response = await fetch('/api/admin/role-login', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            phone: form.phone.value,
-            password: form.password.value
-          })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) throw new Error(data.error);
-
-        status.textContent = 'Login successful';
-
-        window.location.href = '/admin.html';
-
-      } catch (error) {
-        status.textContent = 'Login Failed';
-      }
+  try {
+    const response = await fetch('/api/admin/role-login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        phone: form.elements.phone.value.trim(),
+        password: form.elements.password.value.trim()
+      })
     });
-  </script>
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Login failed');
+    }
+
+    status.textContent = 'Login successful. Opening admin panel...';
+
+    window.location.href = '/admin.html';
+
+  }  catch (error) {
+  status.textContent = error.message || 'Login failed';
+}
+});
+</script>
 </body>
 </html>
