@@ -42,39 +42,8 @@
 
   <script src="/site.js"></script>
 
-  <script>
-const form = document.getElementById('admin-login-form');
-const status = document.getElementById('admin-login-status');
+ <script src="/site.js"></script>
+<script src="/super-admin-login.js"></script>
 
-form.onsubmit = async function (event) {
-  event.preventDefault();
-
-  status.textContent = 'Checking login...';
-
-  try {
-    const response = await fetch('/api/admin/role-login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        phone: form.elements.phone.value.trim(),
-        password: form.elements.password.value.trim()
-      })
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      status.textContent = data.error || 'Login failed';
-      return;
-    }
-
-    status.textContent = 'Login successful';
-    window.location.href = '/admin.html';
-
-  } catch (error) {
-    status.textContent = 'Server connection error';
-  }
-};
-</script>
 </body>
 </html>
