@@ -73,15 +73,13 @@ function shellHeader() {
   </span>
 </a>
 
-<input type="checkbox" id="mobile-menu-toggle" hidden>
+
 
 <div class="top-buttons">
   <button id="languageToggle" class="lang-btn">বাংলা</button>
-  
 
-  <label for="mobile-menu-toggle" class="menu-button">
-    Menu
-  </label>
+
+  
 </div>
 
 <nav class="nav">
