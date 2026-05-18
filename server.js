@@ -603,6 +603,39 @@ app.post('/api/super-admin/reject-admin/:id', requireSuperAdmin, async (req, res
   }
 });
 
+// SUPER ADMIN LOGIN
+app.post('/api/super-admin/login', async (req, res, next) => {
+  try {
+    const { phone, password } = clean(req.body);
+
+    if (phone !== '8918158350' || password !== 'adminbjp@123') {
+      return res.status(401).json({ error: 'Invalid super admin login' });
+    }
+
+    const superUser = {
+      id: 1,
+      full_name: 'Arghya Jash',
+      phone,
+      role: 'super_admin'
+    };
+
+    res.cookie('admin_token', createAdminToken(superUser), {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 12
+    });
+
+    res.json({
+      ok: true,
+      admin: superUser
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 // ADMIN ROLE LOGIN
 app.post('/api/admin/role-login', async (req, res, next) => {
   try {
