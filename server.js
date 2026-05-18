@@ -515,6 +515,19 @@ app.post('/api/admin-apply', upload.single('image'), async (req, res, next) => {
       return res.status(400).json({ error: 'Invalid requested role' });
     }
 
+    const existing = await query(
+  `SELECT id FROM admin_applications
+   WHERE phone = $1 AND status = 'pending'
+   LIMIT 1`,
+  [body.phone]
+);
+
+if (existing.length) {
+  return res.status(400).json({
+    error: 'You already have a pending admin role application'
+  });
+}
+
     const rows = await query(
       `INSERT INTO admin_applications
        (full_name, phone, email, address, requested_role, image_url, message)
