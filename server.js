@@ -29,7 +29,7 @@ const upload = multer({
 
 const port = process.env.PORT || 3000;
 const sessionSecret = process.env.SESSION_SECRET || 'development-secret-change-me';
-const adminPassword = process.env.ADMIN_PASSWORD_HASH || process.env.ADMIN_PASSWORD || 'admin123';
+const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
 const superAdminPhone = process.env.SUPER_ADMIN_PHONE || '9999999999';
 
 app.use(helmet({
@@ -172,9 +172,7 @@ app.post("/api/membership", upload.single("image"), async (req, res, next) => {
     if (req.file) {
       body.image_url = "/uploads/" + req.file.filename;
     }
-    if (fields.all.includes('sort_order') && !body.sort_order) {
-  body.sort_order = 0;
-}
+    
 
     validateRequired(body, ['full_name', 'phone', 'address']);
 
@@ -614,14 +612,14 @@ app.post('/api/admin/role-login', async (req, res, next) => {
       return res.status(400).json({ error: 'Phone and password required' });
     }
 if (phone === superAdminPhone && password === adminPassword) {
-  const supreUser = {
+  const superUser = {
     id: 1,
     full_name: 'Arghya Jash',
     phone,
     role: 'super_admin'
   };
 
-  res.cookie('admin_token', createAdminToken(supreUser), {
+  res.cookie('admin_token', createAdminToken(superUser), {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
@@ -630,7 +628,7 @@ if (phone === superAdminPhone && password === adminPassword) {
 
   return res.json({
     ok: true,
-    admin: supreUser
+    admin: superUser
   });
 }
     const rows = await query(
