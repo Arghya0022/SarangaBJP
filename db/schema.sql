@@ -256,3 +256,5 @@ CHECK (role IN (
   'administrator',
   'coordinator'
 ));
+ALTER TABLE membership_applications
+ADD COLUMN IF NOT EXISTS password_hash TEXT;
