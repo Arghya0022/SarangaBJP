@@ -16,7 +16,25 @@
       <h1>Login as Leader / Admin / President</h1>
       <p>Approved role holders can login using phone number and password.</p>
     </section>
+<form id="admin-login-form" class="panel-form">
 
+  <label>
+    Phone Number
+    <input type="text" name="phone" placeholder="Enter phone number" required>
+  </label>
+
+  <label>
+    Password
+    <input type="password" name="password" placeholder="Enter password" required>
+  </label>
+
+  <button class="button primary" type="submit">
+    Login
+  </button>
+
+  <p id="admin-login-status" class="form-status"></p>
+
+</form>
    
   </main>
 
