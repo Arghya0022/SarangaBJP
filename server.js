@@ -611,26 +611,28 @@ app.post('/api/admin/role-login', async (req, res, next) => {
     if (!phone || !password) {
       return res.status(400).json({ error: 'Phone and password required' });
     }
-if (phone === superAdminPhone && password === adminPassword) {
-  const superUser = {
-    id: 1,
-    full_name: 'Arghya Jash',
-    phone,
-    role: 'super_admin'
-  };
 
-  res.cookie('admin_token', createAdminToken(superUser), {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 1000 * 60 * 60 * 12
-  });
+    if (phone === '8918158350' && password === 'adminbjp@123') {
+      const superUser = {
+        id: 1,
+        full_name: 'Arghya Jash',
+        phone,
+        role: 'super_admin'
+      };
 
-  return res.json({
-    ok: true,
-    admin: superUser
-  });
-}
+      res.cookie('admin_token', createAdminToken(superUser), {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 1000 * 60 * 60 * 12
+      });
+
+      return res.json({
+        ok: true,
+        admin: superUser
+      });
+    }
+
     const rows = await query(
       `SELECT * FROM admin_users WHERE phone = $1 LIMIT 1`,
       [phone]
