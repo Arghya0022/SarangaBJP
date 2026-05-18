@@ -422,14 +422,259 @@ crudRoutes('gallery', 'gallery_items', {
   required: ['title', 'image_url'],
   all: ['title', 'image_url', 'caption', 'sort_order']
 });
+
 crudRoutes('members', 'members', {
-required: ['full_name', 'designation'],
+  required: ['full_name', 'designation'],
   all: ['full_name', 'designation', 'phone', 'village_or_ward', 'image_url', 'is_featured']
 });
+
+const ADMIN_ROLES = [
+  'super_admin',
+  'president',
+  'general_secretary',
+  'leader',
+  'booth_head',
+  'booth_president',
+  'administrator',
+  'coordinator'
+];
+
+function createAdminToken(user) {
+  const payload = JSON.stringify({
+    id: user.id,
+    phone: user.phone,
+    role: user.role,
+    exp: Date.now() + 1000 * 60 * 60 * 12
+  });
+
+  const body = Buffer.from(payload).toString('base64url');
+  return `${body}.${sign(body)}`;
+}
+
+function readAdminToken(req) {
+  const token = req.cookies.admin_token;
+  return readToken(token);
+}
+
+function requireSuperAdmin(req, res, next) {
+  const user = readAdminToken(req);
+
+  if (!user || user.role !== 'super_admin') {
+    return res.status(403).json({
+      error: 'Only Super Admin can approve admin/leader applications'
+    });
+  }
+
+  req.admin = user;
+  next();
+}
+
+function requireRoleAdmin(req, res, next) {
+  const user = readAdminToken(req);
+
+  if (!user || !ADMIN_ROLES.includes(user.role)) {
+    return res.status(403).json({
+      error: 'Admin/Leader permission required'
+    });
+  }
+
+  req.admin = user;
+  next();
+}
+
+// ADMIN / LEADER APPLICATION
+app.post('/api/admin-application', upload.single('image'), async (req, res, next) => {
+  try {
+    const body = clean(req.body);
+
+    if (req.file) {
+      body.image_url = '/uploads/' + req.file.filename;
+    }
+
+    validateRequired(body, ['full_name', 'phone', 'requested_role']);
+
+    const allowedRoles = [
+      'president',
+      'general_secretary',
+      'leader',
+      'booth_head',
+      'booth_president',
+      'administrator',
+      'coordinator'
+    ];
+
+    if (!allowedRoles.includes(body.requested_role)) {
+      return res.status(400).json({ error: 'Invalid requested role' });
+    }
+
+    const rows = await query(
+      `INSERT INTO admin_applications
+       (full_name, phone, email, address, requested_role, image_url, message)
+       VALUES ($1,$2,$3,$4,$5,$6,$7)
+       RETURNING id, status, created_at`,
+      [
+        body.full_name,
+        body.phone,
+        body.email || null,
+        body.address || null,
+        body.requested_role,
+        body.image_url || null,
+        body.message || null
+      ]
+    );
+
+    res.status(201).json(rows[0]);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// SUPER ADMIN: APPROVE ADMIN ROLE
+app.post('/api/super-admin/approve-admin/:id', requireSuperAdmin, async (req, res, next) => {
+  try {
+    const rows = await query(
+      `UPDATE admin_applications
+       SET status = 'approved',
+           approved_by = $1,
+           approved_at = NOW(),
+           updated_at = NOW()
+       WHERE id = $2
+       RETURNING *`,
+      [req.admin.phone, req.params.id]
+    );
+
+    const application = rows[0];
+
+    if (!application) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    const tempPassword = application.phone.slice(-4) + '@Admin';
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+
+    await query(
+      `INSERT INTO admin_users
+       (full_name, phone, password_hash, role)
+       VALUES ($1,$2,$3,$4)
+       ON CONFLICT (phone)
+       DO UPDATE SET
+         full_name = EXCLUDED.full_name,
+         password_hash = EXCLUDED.password_hash,
+         role = EXCLUDED.role`,
+      [
+        application.full_name,
+        application.phone,
+        hashedPassword,
+        application.requested_role
+      ]
+    );
+
+    res.json({
+      ok: true,
+      message: 'Admin role approved',
+      phone: application.phone,
+      temporary_password: tempPassword
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// SUPER ADMIN: REJECT ADMIN ROLE
+app.post('/api/super-admin/reject-admin/:id', requireSuperAdmin, async (req, res, next) => {
+  try {
+    const rows = await query(
+      `UPDATE admin_applications
+       SET status = 'rejected',
+           approved_by = $1,
+           approved_at = NOW(),
+           updated_at = NOW()
+       WHERE id = $2
+       RETURNING *`,
+      [req.admin.phone, req.params.id]
+    );
+
+    if (!rows[0]) {
+      return res.status(404).json({ error: 'Application not found' });
+    }
+
+    res.json({ ok: true, message: 'Admin role rejected' });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ADMIN ROLE LOGIN
+app.post('/api/admin/role-login', async (req, res, next) => {
+  try {
+    const { phone, password } = clean(req.body);
+
+    if (!phone || !password) {
+      return res.status(400).json({ error: 'Phone and password required' });
+    }
+
+    const rows = await query(
+      `SELECT * FROM admin_users WHERE phone = $1 LIMIT 1`,
+      [phone]
+    );
+
+    const user = rows[0];
+
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid login' });
+    }
+
+    const valid = await bcrypt.compare(password, user.password_hash);
+
+    if (!valid) {
+      return res.status(401).json({ error: 'Wrong password' });
+    }
+
+    res.cookie('admin_token', createAdminToken(user), {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 12
+    });
+
+    res.json({
+      ok: true,
+      admin: {
+        id: user.id,
+        full_name: user.full_name,
+        phone: user.phone,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ADMIN PROFILE
+app.get('/api/admin/profile', requireRoleAdmin, async (req, res) => {
+  res.json({
+    ok: true,
+    admin: req.admin
+  });
+});
+
+// ADMIN APPLICATIONS LIST — ONLY SUPER ADMIN
+app.get('/api/super-admin/admin-applications', requireSuperAdmin, async (req, res, next) => {
+  try {
+    const rows = await query(
+      `SELECT * FROM admin_applications ORDER BY created_at DESC LIMIT 100`
+    );
+
+    res.json(rows);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // MEMBER SET PASSWORD
 app.post('/api/member/set-password', async (req, res, next) => {
   try {
-
     const { phone, password } = clean(req.body);
 
     if (!phone || !password) {
@@ -467,18 +712,14 @@ app.post('/api/member/set-password', async (req, res, next) => {
       ok: true,
       message: 'Password created successfully'
     });
-
   } catch (error) {
     next(error);
   }
 });
 
-
-
 // MEMBER LOGIN
 app.post('/api/member/login', async (req, res, next) => {
   try {
-
     const { phone, password } = clean(req.body);
 
     const rows = await query(
@@ -497,10 +738,7 @@ app.post('/api/member/login', async (req, res, next) => {
       });
     }
 
-    const valid = await bcrypt.compare(
-      password,
-      member.password_hash
-    );
+    const valid = await bcrypt.compare(password, member.password_hash);
 
     if (!valid) {
       return res.status(401).json({
@@ -531,18 +769,14 @@ app.post('/api/member/login', async (req, res, next) => {
         role: member.role
       }
     });
-
   } catch (error) {
     next(error);
   }
 });
 
-
-
 // MEMBER PROFILE
 app.get('/api/member/profile', async (req, res, next) => {
   try {
-
     const token = req.cookies.member_token;
 
     if (!token) {
@@ -586,7 +820,6 @@ app.get('/api/member/profile', async (req, res, next) => {
     }
 
     res.json(member);
-
   } catch (error) {
     next(error);
   }
