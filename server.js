@@ -491,7 +491,7 @@ function requireRoleAdmin(req, res, next) {
 }
 
 // ADMIN / LEADER APPLICATION
-app.post('/api/admin-application', upload.single('image'), async (req, res, next) => {
+app.post('/api/admin-apply', upload.single('image'), async (req, res, next) => {
   try {
     const body = clean(req.body);
 
