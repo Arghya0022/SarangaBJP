@@ -29,7 +29,7 @@ const upload = multer({
 
 const port = process.env.PORT || 3000;
 const sessionSecret = process.env.SESSION_SECRET || 'development-secret-change-me';
-const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+const adminPassword = process.env.ADMIN_PASSWORD_HASH || process.env.ADMIN_PASSWORD || 'admin123';
 
 app.use(helmet({
   contentSecurityPolicy: {
