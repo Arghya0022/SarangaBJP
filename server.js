@@ -106,9 +106,17 @@ function readToken(token) {
 }
 
 function requireAdmin(req, res, next) {
-  if (!readToken(req.cookies.admin_token)) {
-    return res.status(401).json({ error: 'Admin login required' });
+
+  const admin = readToken(req.cookies.admin_token);
+
+  if (!admin) {
+    return res.status(401).json({
+      error: 'Admin login required'
+    });
   }
+
+  req.admin = admin;
+
   next();
 }
 
@@ -707,13 +715,17 @@ app.post('/api/admin/role-login', async (req, res, next) => {
 });
 
 // ADMIN PROFILE
-app.get('/api/admin/profile', requireRoleAdmin, async (req, res) => {
-  res.json({
-    ok: true,
-    admin: req.admin
-  });
-});
 
+app.get('/api/admin/profile', requireAdmin, async (req, res, next) => {
+  try {
+    res.json({
+      ok: true,
+      admin: req.admin
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 // ADMIN APPLICATIONS LIST — ONLY SUPER ADMIN
 app.get('/api/super-admin/admin-applications', requireSuperAdmin, async (req, res, next) => {
   try {
