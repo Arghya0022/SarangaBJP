@@ -614,14 +614,14 @@ app.post('/api/admin/role-login', async (req, res, next) => {
       return res.status(400).json({ error: 'Phone and password required' });
     }
 if (phone === superAdminPhone && password === adminPassword) {
-  const user = {
+  const supreUser = {
     id: 1,
     full_name: 'Arghya Jash',
     phone,
     role: 'super_admin'
   };
 
-  res.cookie('admin_token', createAdminToken(user), {
+  res.cookie('admin_token', createAdminToken(supreUser), {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
@@ -630,7 +630,7 @@ if (phone === superAdminPhone && password === adminPassword) {
 
   return res.json({
     ok: true,
-    admin: user
+    admin: supreUser
   });
 }
     const rows = await query(
