@@ -232,10 +232,20 @@ function renderContact(data) {
 }
 
 function renderHomeStats(data) {
+
   const members = document.querySelector('#stat-members');
   const events = document.querySelector('#stat-events');
-  if (members) members.textContent = data.members.length;
-  if (events) events.textContent = data.events.length;
+
+  const membersData = data?.members || [];
+  const eventsData = data?.events || [];
+
+  if (members) {
+    members.textContent = membersData.length;
+  }
+
+  if (events) {
+    events.textContent = eventsData.length;
+  }
 }
 
 async function loadSite() {
