@@ -609,7 +609,9 @@ app.post('/api/super-admin/login', async (req, res, next) => {
     const { phone, password } = clean(req.body);
 
     if (phone !== '8918158350' || password !== 'adminbjp@123') {
-      return res.status(401).json({ error: 'Invalid super admin login' });
+      return res.status(401).json({
+        error: 'Invalid super admin login'
+      });
     }
 
     const superUser = {
@@ -626,7 +628,7 @@ app.post('/api/super-admin/login', async (req, res, next) => {
       maxAge: 1000 * 60 * 60 * 12
     });
 
-    res.json({
+    return res.json({
       ok: true,
       admin: superUser
     });
