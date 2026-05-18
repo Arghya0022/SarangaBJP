@@ -1,178 +1,475 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="noindex">
-    <title>Admin Panel | Saranga BJP Paribar</title>
-    <link rel="stylesheet" href="/styles.css">
-  </head>
-  <body data-page="admin">
-    <div class="announcement">Secure admin panel for Saranga BJP Paribar</div>
-    <header class="site-header shell-header"></header>
-    <main class="admin-page">
-      <section class="login-panel" id="login-panel">
-        <p class="eyebrow">Admin Access</p>
-        <h1>Login to approval panel</h1>
-        <form id="login-form" class="panel-form compact-form">
-          <label>Password<input name="password" type="password" required autocomplete="current-password"></label>
-          <button class="button primary" type="submit">Open Panel</button>
-          <p class="form-status" id="login-status"></p>
-        </form>
-      </section>
 
-      <section class="dashboard" id="dashboard" hidden>
-        <div class="section-heading">
-          <p class="eyebrow">Administration</p>
-          <h1>Manage members, news, events, gallery, and leaders</h1>
-          <button class="button secondary" id="logout-button" type="button">Logout</button>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
 
-        <div class="admin-grid">
-          <section class="admin-block wide">
-            <h2>Membership Applications</h2>
-            <div class="table-wrap">
-              <table>
-                <thead><tr><th>Name</th><th>Phone</th><th>Area</th><th>Interest</th><th>Status</th><th>Designation</th><th>Action</th></tr></thead>
-                <tbody id="applications-table"></tbody>
-              </table>
-            </div>
-          </section>
+  <title>Admin Panel | Saranga BJP Paribar</title>
 
-          <section class="admin-block">
-            <h2>Add Leader</h2>
-            <form class="stack-form" data-create="leaders" enctype="multipart/form-data">
+  <link rel="stylesheet" href="/styles.css">
+</head>
 
-               <input name="full_name" placeholder="Full name" required>
+<body data-page="admin">
 
-               <input name="designation" placeholder="Position, e.g. President" required>
+  <div class="announcement"
+       data-i18n="adminAnnouncement">
 
-               <input name="phone" placeholder="Contact number">
+    Secure admin panel for Saranga BJP Paribar
 
-               <input name="social_url" placeholder="Facebook/social link">
+  </div>
 
-               <input type="file" name="image" accept="image/*">
+  <header class="site-header shell-header"></header>
 
-               <textarea name="bio" placeholder="Short message or bio"></textarea>
+  <main class="admin-page">
 
-               <input name="sort_order" type="number" placeholder="Sort order">
+    <!-- LOGIN PANEL -->
 
-               <button class="button secondary" type="submit">
-                  Save Leader
-               </button>
+    <section class="login-panel" id="login-panel">
 
-             </form>
+      <p class="eyebrow"
+         data-i18n="adminAccess">
 
-          <section class="admin-block">
-            <h2>Add News/Update</h2>
-            <form class="stack-form" data-create="updates" enctype="multipart/form-data">
+        Admin Access
 
-  <input name="title" placeholder="Title" required>
+      </p>
 
-  <input name="category" placeholder="Category, e.g. Rally">
+      <h1 data-i18n="loginApprovalPanel">
 
-  <input name="event_date" type="date">
+        Login to approval panel
 
-  <input type="file" name="image" accept="image/*">
+      </h1>
 
-  <textarea name="body" placeholder="Description" required></textarea>
+      <form id="login-form"
+            class="panel-form compact-form">
 
-  <button class="button secondary" type="submit">
-    Publish News
-  </button>
+        <label>
 
-</form>
+          <span data-i18n="password">
 
-          <section class="admin-block">
-            <h2>Add Event</h2>
-            <form class="stack-form" data-create="events" enctype="multipart/form-data">
+            Password
 
-  <input name="title" placeholder="Event title" required>
+          </span>
 
-  <input name="location" placeholder="Location">
+          <input
+            name="password"
+            type="password"
+            required
+            autocomplete="current-password">
 
-  <input name="event_date" type="date">
+        </label>
 
-  <input type="file" name="image" accept="image/*">
+        <button
+          class="button primary"
+          type="submit"
+          data-i18n="openPanel">
 
-  <textarea name="description" placeholder="Event details"></textarea>
+          Open Panel
 
-  <button class="button secondary" type="submit">
-    Add Event
-  </button>
+        </button>
 
-</form>
+        <p class="form-status"
+           id="login-status"></p>
 
-          <section class="admin-block">
+      </form>
 
-  <h2>Add Gallery Photo/Video</h2>
+    </section>
 
-  <form class="stack-form"
-        data-create="gallery"
-        enctype="multipart/form-data">
+    <!-- DASHBOARD -->
 
-    <input
-      name="title"
-      placeholder="Title"
-      required>
+    <section class="dashboard"
+             id="dashboard"
+             hidden>
 
-    <!-- IMAGE UPLOAD -->
-    <input
-      type="file"
-      name="image"
-      accept="image/*">
+      <div class="section-heading">
 
-    <!-- VIDEO UPLOAD -->
-    <input
-      type="file"
-      name="video"
-      accept="video/*">
+        <p class="eyebrow"
+           data-i18n="administration">
 
-    <input
-      name="caption"
-      placeholder="Caption">
+          Administration
 
-    <input
-      name="sort_order"
-      type="number"
-      placeholder="Sort order">
+        </p>
 
-    <button
-      class="button secondary"
-      type="submit">
+        <h1 data-i18n="manageAdminText">
 
-      Add Media
+          Manage members, news, events, gallery, and leaders
 
-    </button>
+        </h1>
 
-  </form>
+        <button
+          class="button secondary"
+          id="logout-button"
+          type="button"
+          data-i18n="logout">
 
-</section>
+          Logout
 
-          <section class="admin-block">
-  <h2>Add Member Manually</h2>
+        </button>
 
-  <form class="stack-form" data-create="members" enctype="multipart/form-data">
-    <input name="full_name" placeholder="Full name" required>
-    <input name="designation" placeholder="Designation" required>
-    <input name="phone" placeholder="Phone">
-    <input name="village_or_ward" placeholder="Village/Ward">
-    <input type="file" name="image" accept="image/*">
-    <input name="social_url" placeholder="Social link">
+      </div>
 
-    <label class="checkbox">
-      <input name="is_featured" type="checkbox">
-      Featured member
-    </label>
+      <div class="admin-grid">
 
-    <button class="button secondary" type="submit">Add Member</button>
-  </form>
-</section>
-        </div>
-      </section>
-    </main>
-    <footer class="footer"></footer>
-    <script src="/site.js"></script>
-    <script src="/admin.js"></script>
-  </body>
+        <!-- MEMBERSHIP APPLICATIONS -->
+
+        <section class="admin-block wide">
+
+          <h2 data-i18n="membershipApplications">
+
+            Membership Applications
+
+          </h2>
+
+          <div class="table-wrap">
+
+            <table>
+
+              <thead>
+
+                <tr>
+
+                  <th data-i18n="name">Name</th>
+
+                  <th data-i18n="phone">Phone</th>
+
+                  <th data-i18n="area">Area</th>
+
+                  <th data-i18n="interest">Interest</th>
+
+                  <th data-i18n="status">Status</th>
+
+                  <th data-i18n="designation">
+                    Designation
+                  </th>
+
+                  <th data-i18n="action">
+                    Action
+                  </th>
+
+                </tr>
+
+              </thead>
+
+              <tbody id="applications-table"></tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+        <!-- ADD LEADER -->
+
+        <section class="admin-block">
+
+          <h2 data-i18n="addLeader">
+
+            Add Leader
+
+          </h2>
+
+          <form class="stack-form"
+                data-create="leaders"
+                enctype="multipart/form-data">
+
+            <input
+              name="full_name"
+              data-i18n-placeholder="fullName"
+              placeholder="Full name"
+              required>
+
+            <input
+              name="designation"
+              data-i18n-placeholder="designationPlaceholder"
+              placeholder="Position, e.g. President"
+              required>
+
+            <input
+              name="phone"
+              data-i18n-placeholder="phonePlaceholder"
+              placeholder="Contact number">
+
+            <input
+              name="social_url"
+              data-i18n-placeholder="socialLinkPlaceholder"
+              placeholder="Facebook/social link">
+
+            <input
+              type="file"
+              name="image"
+              accept="image/*">
+
+            <textarea
+              name="bio"
+              data-i18n-placeholder="bioPlaceholder"
+              placeholder="Short message or bio"></textarea>
+
+            <input
+              name="sort_order"
+              type="number"
+              data-i18n-placeholder="sortOrder"
+              placeholder="Sort order">
+
+            <button
+              class="button secondary"
+              type="submit"
+              data-i18n="saveLeader">
+
+              Save Leader
+
+            </button>
+
+          </form>
+
+        </section>
+
+        <!-- ADD NEWS -->
+
+        <section class="admin-block">
+
+          <h2 data-i18n="addNewsUpdate">
+
+            Add News/Update
+
+          </h2>
+
+          <form class="stack-form"
+                data-create="updates"
+                enctype="multipart/form-data">
+
+            <input
+              name="title"
+              data-i18n-placeholder="title"
+              placeholder="Title"
+              required>
+
+            <input
+              name="category"
+              data-i18n-placeholder="category"
+              placeholder="Category, e.g. Rally">
+
+            <input
+              name="event_date"
+              type="date">
+
+            <input
+              type="file"
+              name="image"
+              accept="image/*">
+
+            <textarea
+              name="body"
+              data-i18n-placeholder="description"
+              placeholder="Description"
+              required></textarea>
+
+            <button
+              class="button secondary"
+              type="submit"
+              data-i18n="publishNews">
+
+              Publish News
+
+            </button>
+
+          </form>
+
+        </section>
+
+        <!-- ADD EVENT -->
+
+        <section class="admin-block">
+
+          <h2 data-i18n="addEvent">
+
+            Add Event
+
+          </h2>
+
+          <form class="stack-form"
+                data-create="events"
+                enctype="multipart/form-data">
+
+            <input
+              name="title"
+              data-i18n-placeholder="eventTitle"
+              placeholder="Event title"
+              required>
+
+            <input
+              name="location"
+              data-i18n-placeholder="location"
+              placeholder="Location">
+
+            <input
+              name="event_date"
+              type="date">
+
+            <input
+              type="file"
+              name="image"
+              accept="image/*">
+
+            <textarea
+              name="description"
+              data-i18n-placeholder="eventDetails"
+              placeholder="Event details"></textarea>
+
+            <button
+              class="button secondary"
+              type="submit"
+              data-i18n="addEvent">
+
+              Add Event
+
+            </button>
+
+          </form>
+
+        </section>
+
+        <!-- GALLERY -->
+
+        <section class="admin-block">
+
+          <h2 data-i18n="addGallery">
+
+            Add Gallery Photo/Video
+
+          </h2>
+
+          <form class="stack-form"
+                data-create="gallery"
+                enctype="multipart/form-data">
+
+            <input
+              name="title"
+              data-i18n-placeholder="title"
+              placeholder="Title"
+              required>
+
+            <input
+              type="file"
+              name="image"
+              accept="image/*">
+
+            <input
+              type="file"
+              name="video"
+              accept="video/*">
+
+            <input
+              name="caption"
+              data-i18n-placeholder="caption"
+              placeholder="Caption">
+
+            <input
+              name="sort_order"
+              type="number"
+              data-i18n-placeholder="sortOrder"
+              placeholder="Sort order">
+
+            <button
+              class="button secondary"
+              type="submit"
+              data-i18n="addMedia">
+
+              Add Media
+
+            </button>
+
+          </form>
+
+        </section>
+
+        <!-- ADD MEMBER -->
+
+        <section class="admin-block">
+
+          <h2 data-i18n="addMemberManually">
+
+            Add Member Manually
+
+          </h2>
+
+          <form class="stack-form"
+                data-create="members"
+                enctype="multipart/form-data">
+
+            <input
+              name="full_name"
+              data-i18n-placeholder="fullName"
+              placeholder="Full name"
+              required>
+
+            <input
+              name="designation"
+              data-i18n-placeholder="designation"
+              placeholder="Designation"
+              required>
+
+            <input
+              name="phone"
+              data-i18n-placeholder="phone"
+              placeholder="Phone">
+
+            <input
+              name="village_or_ward"
+              data-i18n-placeholder="villageArea"
+              placeholder="Village/Ward">
+
+            <input
+              type="file"
+              name="image"
+              accept="image/*">
+
+            <input
+              name="social_url"
+              data-i18n-placeholder="socialLink"
+              placeholder="Social link">
+
+            <label class="checkbox">
+
+              <input
+                name="is_featured"
+                type="checkbox">
+
+              <span data-i18n="featuredMember">
+
+                Featured member
+
+              </span>
+
+            </label>
+
+            <button
+              class="button secondary"
+              type="submit"
+              data-i18n="addMember">
+
+              Add Member
+
+            </button>
+
+          </form>
+
+        </section>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="footer"></footer>
+
+  <script src="/site.js"></script>
+
+  <script src="/admin.js"></script>
+
+  <script src="/scripts/lang.js"></script>
+
+</body>
+
 </html>
