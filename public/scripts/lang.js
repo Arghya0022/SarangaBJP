@@ -6,6 +6,20 @@ const translations = {
 
   en: {
 
+
+goalText: "Political organization with service, discipline, and local participation.",
+
+activitiesTitle: "Activities",
+activitiesText: "Share meetings, campaigns, public service programs, and awareness drives.",
+
+volunteersTitle: "Volunteers",
+volunteersText: "Collect online membership and volunteer applications from supporters.",
+
+updatesTitle: "Updates",
+updatesText: "Publish announcements, photos, events, and leader messages from one place.",
+
+programMeetings: "Programs and meetings",
+viewSchedule: "View schedule",
     ourGoal: "Our Goal",
 goalTitle: "Political organization with service, discipline, and local participation.",
 activities: "Activities",
@@ -272,7 +286,19 @@ admin: "Admin",
 
   bn: {
 
+goalText: "সেবা, শৃঙ্খলা এবং স্থানীয় অংশগ্রহণের মাধ্যমে রাজনৈতিক সংগঠন।",
 
+activitiesTitle: "কার্যক্রম",
+activitiesText: "সভা, প্রচার অভিযান, জনসেবা কর্মসূচি এবং সচেতনতা কার্যক্রম প্রকাশ করুন।",
+
+volunteersTitle: "স্বেচ্ছাসেবক",
+volunteersText: "সমর্থকদের কাছ থেকে অনলাইন সদস্যপদ এবং স্বেচ্ছাসেবক আবেদন সংগ্রহ করুন।",
+
+updatesTitle: "আপডেট",
+updatesText: "এক জায়গা থেকে ঘোষণা, ছবি, অনুষ্ঠান এবং নেতাদের বার্তা প্রকাশ করুন।",
+
+programMeetings: "কর্মসূচি ও সভা",
+viewSchedule: "সময়সূচি দেখুন",
     ourGoal: "আমাদের লক্ষ্য",
 goalTitle: "সেবা, শৃঙ্খলা এবং স্থানীয় অংশগ্রহণের মাধ্যমে রাজনৈতিক সংগঠন।",
 activities: "কার্যক্রম",
