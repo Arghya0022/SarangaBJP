@@ -6,7 +6,10 @@ const translations = {
 
   en: {
 
-
+adminRoleApplications: "Admin / Leader Applications",
+requestedRole: "Requested Role",
+approve: "Approve",
+reject: "Reject",
 goalText: "Political organization with service, discipline, and local participation.",
 
 activitiesTitle: "Activities",
@@ -286,7 +289,10 @@ admin: "Admin",
 
   bn: {
 
-
+adminRoleApplications: "অ্যাডমিন / নেতৃত্ব আবেদন",
+requestedRole: "আবেদনকৃত পদ",
+approve: "অনুমোদন",
+reject: "প্রত্যাখ্যান",
     viewAll: "সব দেখুন",
 members: "সদস্য",
 events: "অনুষ্ঠান",
