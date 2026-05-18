@@ -43,10 +43,10 @@
   <script src="/site.js"></script>
 
   <script>
-const form = document.querySelector('#admin-login-form');
-const status = document.querySelector('#admin-login-status');
+const form = document.getElementById('admin-login-form');
+const status = document.getElementById('admin-login-status');
 
-form.addEventListener('submit', async function (event) {
+form.onsubmit = async function (event) {
   event.preventDefault();
 
   status.textContent = 'Checking login...';
@@ -54,9 +54,7 @@ form.addEventListener('submit', async function (event) {
   try {
     const response = await fetch('/api/admin/role-login', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         phone: form.elements.phone.value.trim(),
         password: form.elements.password.value.trim()
@@ -66,17 +64,17 @@ form.addEventListener('submit', async function (event) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error || 'Login failed');
+      status.textContent = data.error || 'Login failed';
+      return;
     }
 
-    status.textContent = 'Login successful. Opening admin panel...';
-
+    status.textContent = 'Login successful';
     window.location.href = '/admin.html';
 
-  }  catch (error) {
-  status.textContent = error.message || 'Login failed';
-}
-});
+  } catch (error) {
+    status.textContent = 'Server connection error';
+  }
+};
 </script>
 </body>
 </html>
