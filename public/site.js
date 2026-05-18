@@ -96,19 +96,18 @@ function shellHeader() {
 }
 
 function setupMenu() {
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest(".menu-button");
+    if (!button) return;
 
-  const button = document.querySelector('.menu-button');
+    const header = button.closest(".site-header");
+    const nav = header.querySelector(".nav");
 
-  const nav = document.querySelector('.nav');
+    if (!nav) return;
 
-  if (!button || !nav) return;
-
-  button.addEventListener('click', () => {
-
-    nav.classList.toggle('open');
-
+    nav.classList.toggle("open");
+    button.setAttribute("aria-expanded", nav.classList.contains("open") ? "true" : "false");
   });
-
 }
 
 function setupSlider() {
@@ -293,7 +292,9 @@ async function loadSite() {
   setupLightbox();
 }
 
-shellHeader();
-setupMenu();
-setupSlider();
-loadSite();
+document.addEventListener("DOMContentLoaded", () => {
+  shellHeader();
+  setupMenu();
+  setupSlider();
+  loadSite();
+});

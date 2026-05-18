@@ -921,3 +921,9 @@ th {
   font-weight: 900;
 }
 }
+@media (max-width: 980px) {
+  .nav.open {
+    display: flex !important;
+    flex-direction: column;
+  }
+}
