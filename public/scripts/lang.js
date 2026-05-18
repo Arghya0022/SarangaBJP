@@ -6,6 +6,20 @@ const translations = {
 
   en: {
 
+    ourGoal: "Our Goal",
+goalTitle: "Political organization with service, discipline, and local participation.",
+activities: "Activities",
+volunteers: "Volunteers",
+updates: "Updates",
+recentAnnouncements: "Recent announcements",
+programsMeetings: "Programs and meetings",
+photoGallery: "Photo Gallery",
+ourLeaders: "Our Leaders",
+awareness: "Awareness",
+donation: "Donation",
+volunteerRegistration: "Volunteer Registration",
+applyNow: "Apply Now",
+
     /* COMMON */
 
     home: "Home",
@@ -251,6 +265,21 @@ const translations = {
   ========================= */
 
   bn: {
+
+
+    ourGoal: "আমাদের লক্ষ্য",
+goalTitle: "সেবা, শৃঙ্খলা এবং স্থানীয় অংশগ্রহণের মাধ্যমে রাজনৈতিক সংগঠন।",
+activities: "কার্যক্রম",
+volunteers: "স্বেচ্ছাসেবক",
+updates: "আপডেট",
+recentAnnouncements: "সাম্প্রতিক ঘোষণা",
+programsMeetings: "কর্মসূচি ও সভা",
+photoGallery: "ফটো গ্যালারি",
+ourLeaders: "আমাদের নেতৃত্ব",
+awareness: "সচেতনতা",
+donation: "অনুদান",
+volunteerRegistration: "স্বেচ্ছাসেবক নিবন্ধন",
+applyNow: "এখনই আবেদন করুন",
 
     home: "হোম",
     about: "আমাদের সম্পর্কে",
