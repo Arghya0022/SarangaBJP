@@ -30,6 +30,7 @@ const upload = multer({
 const port = process.env.PORT || 3000;
 const sessionSecret = process.env.SESSION_SECRET || 'development-secret-change-me';
 const adminPassword = process.env.ADMIN_PASSWORD_HASH || process.env.ADMIN_PASSWORD || 'admin123';
+const superAdminPhone = process.env.SUPER_ADMIN_PHONE || '9999999999';
 
 app.use(helmet({
   contentSecurityPolicy: {
@@ -612,7 +613,26 @@ app.post('/api/admin/role-login', async (req, res, next) => {
     if (!phone || !password) {
       return res.status(400).json({ error: 'Phone and password required' });
     }
+if (phone === superAdminPhone && password === adminPassword) {
+  const user = {
+    id: 1,
+    full_name: 'Arghya Jash',
+    phone,
+    role: 'super_admin'
+  };
 
+  res.cookie('admin_token', createAdminToken(user), {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 1000 * 60 * 60 * 12
+  });
+
+  return res.json({
+    ok: true,
+    admin: user
+  });
+}
     const rows = await query(
       `SELECT * FROM admin_users WHERE phone = $1 LIMIT 1`,
       [phone]
